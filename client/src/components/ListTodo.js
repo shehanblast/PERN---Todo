@@ -1,4 +1,6 @@
-import React,{Fragment,useState,useEffect} from "react";
+import React, {Fragment, useState, useEffect} from "react";
+
+import EditTodo from "./EditTodo";
 
 const ListTodo = () => {
 
@@ -6,7 +8,8 @@ const ListTodo = () => {
     //[] - ensure only sends 1 request
     useEffect(() => {
         getTodos();
-    },[]);
+        deleteTodo();
+    }, []);
 
     const getTodos = async () => {
 
@@ -18,7 +21,7 @@ const ListTodo = () => {
             setTodo(jsonData);
 
 
-        }catch (err){
+        } catch (err) {
             console.log(err.message);
         }
 
@@ -31,8 +34,28 @@ const ListTodo = () => {
 
     console.log(todos);
 
+    // `` - allows to put variables inside url
+    const deleteTodo = async (id) => {
+        try {
 
-    return(
+            const deleteTo = await fetch(`http://localhost:5000/todos/${id}`,
+                {
+                    method: "DELETE"
+                });
+
+            console.log(deleteTo);
+
+            //filter the array with the id and reload the table
+            setTodo(todos.filter(todo => todo.todo_id !== id))
+
+
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+
+    return (
         <Fragment>
             <table className="table">
                 <thead>
@@ -44,11 +67,13 @@ const ListTodo = () => {
                 </thead>
                 <tbody>
                 {todos.map(todo => (
-                <tr>
-                    <td key={todo.todo_id}>{todo.description}</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
-                </tr>
+                    <tr>
+                        <td key={todo.todo_id}>{todo.description}</td>
+                        <td><EditTodo todo={todo}/></td>
+                        <td>
+                            <button className="btn btn-danger" onClick={() => deleteTodo(todo.todo_id)}>Delete</button>
+                        </td>
+                    </tr>
                 ))}
                 </tbody>
             </table>
