@@ -25,9 +25,9 @@ if (process.env.NODE_ENV === "production"){
 
 // app.use(express.static(path.join(__dirname, "client/build")));
 
-app.get('/', async (req, res) => {
-    res.json("789")
-})
+// app.get('/', async (req, res) => {
+//     res.json("789")
+// })
 
 //Routes ---------------
 // create todo
