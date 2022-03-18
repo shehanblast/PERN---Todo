@@ -10,6 +10,7 @@ const app = express();
 //process.env.PORT
 //process.env.NODE_ENV => Whether our application is in production/undefined
 
+console.log(path.join(__dirname, "client/build/index.html"));
 
 //middleware
 app.use(cors());
@@ -94,7 +95,7 @@ app.put("/todos/:id", async (req, res) => {
     }
 })
 
-//update a todo
+//Delete a todo
 app.delete("/todos/:id", async (req, res) => {
     try {
         const {id} = req.params;
