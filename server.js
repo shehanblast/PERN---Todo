@@ -2,14 +2,27 @@
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
+const path = require("path");
+const PORT = process.env.PORT || 5000;
 
 const app = express();
+
+//process.env.PORT
+//process.env.NODE_ENV => Whether our application is in production/undefined
 
 
 //middleware
 app.use(cors());
 //to pass data
 app.use(express.json());
+
+if (process.env.NODE_ENV === "production"){
+    //server static content
+    //direct it to the build folder
+    app.use(express.static(path.join(__dirname, "client/build")));
+}
+
+// app.use(express.static(path.join(__dirname, "client/build")));
 
 app.get('/', async (req, res) => {
     res.json("789")
@@ -97,7 +110,12 @@ app.delete("/todos/:id", async (req, res) => {
     }
 })
 
-app.listen(5000, () => {
-    console.log("server has started on port 5000");
+//all the other paths than above defined will be redirected into  index.html
+app.get("*", (req,res) => {
+    res.sendFile(path.join(__dirname, "client/build/index.html"))
+})
+
+app.listen(PORT, () => {
+    console.log(`server has started on port ${PORT}`);
 });
 
