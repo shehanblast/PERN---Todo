@@ -15,31 +15,32 @@ const proConfig = {
     connectionString: process.env.DATABASE_URL, //heroku addons
 }
 
-// const pool = new Pool(
-//     process.env.NODE_ENV === "production" ? proConfig : devConfig
-// );
+const pool = new Pool(
+    process.env.NODE_ENV === "production" ? proConfig : devConfig
+);
 
-const pool =
-
-    (process.env.NODE_ENV === "production")
-
-        ? new Pool({
-
-            connectionString: proConfig,
-
-            ssl: {
-
-                rejectUnauthorized: false,
-
-            },
-
-        })
-
-        : new Pool({
-
-            connectionString: devConfig,
-
-        });
+// const pool =
+//
+//     (process.env.NODE_ENV === "production")
+//
+//         ? new Pool({
+//
+//             connectionString: proConfig,
+//
+//             ssl: {
+//
+//                 rejectUnauthorized: false,
+//
+//             },
+//
+//         })
+//
+//         : new Pool({
+//
+//             connectionString: devConfig,
+//
+//         });
+//
 
 module.exports = pool;
 
